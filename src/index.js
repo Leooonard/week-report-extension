@@ -1,6 +1,7 @@
-import ReactDOM from "./react-dom.min.js"
-import React from "./react.min.js"
+import ReactDOM from "react-dom"
+import React from "react"
 import {WeekReport} from "./WeekReport.js"
 
-
-ReactDOM.render(<WeekReport></WeekReport>, document.getElmentById("root"))
+window.onload = function(){
+	ReactDOM.render(<WeekReport></WeekReport>, document.getElementById("root"))
+}
