@@ -1,61 +1,45 @@
 import React from "react"
+import {InputArea} from "./InputArea.js"
 
 export class ReportForm extends React.Component{
     constructor(){
         super()
 
-        this.state = {
-            title: "",
-            done: "",
-            todo: "",
-            share: "",
-        }
-
-
-        this.titleChange = this.titleChange.bind(this)
-        this.doneChange = this.doneChange.bind(this)
-        this.todoChange = this.todoChange.bind(this)
-        this.shareChange = this.shareChange.bind(this)
-        this.submit = this.submit.bind(this)
+        this.addReportItem = this.addReportItem.bind(this)
+        this.submitReport = this.submitReport.bind(this)
     }
 
-    titleChange(e){
-        this.setState({
-            title: e.target.value,
-        })
-    }
-
-    doneChange(e){
-        this.setState({
-            done: e.target.value,
-        })
-    }
-
-    todoChange(e){
-        this.setState({
-            todo: e.target.value,
-        })
-    }
-
-    shareChange(e){
-        this.setState({
-            share: e.target.value,
-        })
-    }
-
-    submit(e){
+    addReportItem(e){
         e.preventDefault()
-        console.log(this.state)
+        this.props.addReportItem()
+    }
+
+    submitReport(e){
+        e.preventDefault()
+        this.props.submitReport()
     }
 
 	render(){
 		return (
-			<form method = "post" action = {this.props.url} onSubmit = {this.submit}>
-				<input name = "titleArea" onChange = {this.titleChange}/>
-                <textarea name = "doneArea" onChange = {this.doneChange}/>
-                <textarea name = "todoArea" onChange = {this.todoChange}/>
-                <textarea name = "shareArea" onChange = {this.shareChange}/>
-                <button>发表</button>
+			<form style = {{marginBottom: 20}}>
+                <div className = {"form-group"}>
+                    <textarea 
+                        className = {"form-control"} 
+                        onChange = {this.props.reportTextChanged} 
+                        value = {this.props.reportText}>
+                    </textarea>
+                </div>
+                <button 
+                    className = {"btn btn-primary"}
+                    style = {{marginRight: 10}}
+                    onClick = {this.addReportItem}>
+                    添加一条
+                </button>
+                <button 
+                    className = {"btn btn-primary"}
+                    onClick = {this.submitReport}>
+                    发表
+                </button>
 			</form>
 		)
 	}

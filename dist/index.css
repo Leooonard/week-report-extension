@@ -1,0 +1,13 @@
+html, body{
+	margin: 0px;
+	padding: 0px;
+}
+
+.fix-bottom{
+	position: fixed;
+	bottom: 0px;
+}
+
+.color-white{
+	color: white;
+}
