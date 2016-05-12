@@ -1,14 +1,14 @@
 import React from "react"
 import {Link} from "react-router"
 
-export class NavHeader extends React.Component {
+export default class NavHeader extends React.Component {
 	constructor() {
 		super()
 	}
 
 	render() {
-		const writeURL = "/write"
-		const readURL = "/read"
+		const writeURL = "app/write"
+		const readURL = "app/read"
 
 		return (
 			<nav className = {"navbar navbar-default"}>

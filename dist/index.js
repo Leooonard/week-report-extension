@@ -62,17 +62,27 @@
 
 	var _LoginPage2 = _interopRequireDefault(_LoginPage);
 
+	var _App = __webpack_require__(235);
+
+	var _App2 = _interopRequireDefault(_App);
+
 	var _reactRouter = __webpack_require__(171);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	window.currentUser = {};
 
 	window.onload = function () {
 		_reactDom2.default.render(_react2.default.createElement(
 			_reactRouter.Router,
 			{ history: _reactRouter.hashHistory },
 			_react2.default.createElement(_reactRouter.Route, { path: "/login", component: _LoginPage2.default }),
-			_react2.default.createElement(_reactRouter.Route, { path: "/write", component: _WeekReport.WeekReport }),
-			_react2.default.createElement(_reactRouter.Route, { path: "/read", component: _ReportList.ReportList })
+			_react2.default.createElement(
+				_reactRouter.Route,
+				{ path: "/app", component: _App2.default },
+				_react2.default.createElement(_reactRouter.Route, { path: "write", component: _WeekReport.WeekReport }),
+				_react2.default.createElement(_reactRouter.Route, { path: "read", component: _ReportList.ReportList })
+			)
 		), document.getElementById("root"));
 	};
 
@@ -20147,8 +20157,7 @@
 			value: function render() {
 				return _react2.default.createElement(
 					"div",
-					{ className: "container" },
-					_react2.default.createElement(_NavHeader.NavHeader, null),
+					null,
 					_react2.default.createElement(_ReportForm.ReportForm, {
 						reportText: this.state.reportText,
 						reportTextChanged: this.reportTextChanged,
@@ -20471,7 +20480,6 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.NavHeader = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -20489,7 +20497,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var NavHeader = exports.NavHeader = function (_React$Component) {
+	var NavHeader = function (_React$Component) {
 		_inherits(NavHeader, _React$Component);
 
 		function NavHeader() {
@@ -20501,8 +20509,8 @@
 		_createClass(NavHeader, [{
 			key: "render",
 			value: function render() {
-				var writeURL = "/write";
-				var readURL = "/read";
+				var writeURL = "app/write";
+				var readURL = "app/read";
 
 				return _react2.default.createElement(
 					"nav",
@@ -20543,6 +20551,8 @@
 
 		return NavHeader;
 	}(_react2.default.Component);
+
+	exports.default = NavHeader;
 
 /***/ },
 /* 171 */
@@ -26152,8 +26162,7 @@
 			value: function render() {
 				return _react2.default.createElement(
 					"div",
-					{ className: "container" },
-					_react2.default.createElement(_NavHeader.NavHeader, null),
+					null,
 					this.getReportList()
 				);
 			}
@@ -26178,9 +26187,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _LoginComponent = __webpack_require__(234);
+	var _LoginForm = __webpack_require__(234);
 
-	var _LoginComponent2 = _interopRequireDefault(_LoginComponent);
+	var _LoginForm2 = _interopRequireDefault(_LoginForm);
+
+	var _reactRouter = __webpack_require__(171);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -26202,12 +26213,41 @@
 		_createClass(LoginPage, [{
 			key: "submit",
 			value: function submit(loginInfo) {
-				alert("submit");
+				var url = "/api/login";
+
+				$.get({
+					url: url,
+					data: loginInfo,
+					dataType: "json"
+				}).done(function (data) {
+					window.currentUser = data;
+					_reactRouter.browserHistory.push('/index.html#/write');
+				}).fail(function (err) {
+					console.log(err);
+				});
 			}
 		}, {
 			key: "render",
 			value: function render() {
-				return _react2.default.createElement(_LoginComponent2.default, { submit: this.submit });
+				return _react2.default.createElement(
+					"div",
+					{ className: "container" },
+					_react2.default.createElement(
+						"div",
+						{ className: "jumbotron" },
+						_react2.default.createElement(
+							"h1",
+							null,
+							"周报"
+						),
+						_react2.default.createElement(
+							"p",
+							null,
+							"写周报，看周报"
+						)
+					),
+					_react2.default.createElement(_LoginForm2.default, { submit: this.submit })
+				);
 			}
 		}]);
 
@@ -26240,13 +26280,13 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var LoginComponent = function (_React$Component) {
-		_inherits(LoginComponent, _React$Component);
+	var LoginForm = function (_React$Component) {
+		_inherits(LoginForm, _React$Component);
 
-		function LoginComponent() {
-			_classCallCheck(this, LoginComponent);
+		function LoginForm() {
+			_classCallCheck(this, LoginForm);
 
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LoginComponent).call(this));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(LoginForm).call(this));
 
 			_this.state = {
 				userName: "",
@@ -26260,7 +26300,7 @@
 			return _this;
 		}
 
-		_createClass(LoginComponent, [{
+		_createClass(LoginForm, [{
 			key: "submit",
 			value: function submit(e) {
 				e.preventDefault();
@@ -26309,78 +26349,111 @@
 			key: "render",
 			value: function render() {
 				return _react2.default.createElement(
-					"div",
-					{ className: "container" },
+					"form",
+					null,
 					_react2.default.createElement(
 						"div",
-						{ className: "jumbotron" },
+						{ className: "form-group" },
 						_react2.default.createElement(
-							"h1",
-							null,
-							"周报"
+							"label",
+							{ "for": "userName" },
+							"用户名"
 						),
+						_react2.default.createElement("input", {
+							className: "form-control",
+							id: "userName",
+							placeholder: "用户名",
+							onChange: this.userNameOnChange,
+							value: this.state.userName
+						})
+					),
+					_react2.default.createElement(
+						"div",
+						{ className: "form-group" },
 						_react2.default.createElement(
-							"p",
-							null,
-							"写周报，看周报"
+							"label",
+							{ "for": "password" },
+							"密码"
 						),
-						_react2.default.createElement(
-							"div",
-							{ className: "pull-right" },
-							_react2.default.createElement(
-								"form",
-								null,
-								_react2.default.createElement(
-									"div",
-									{ className: "form-group" },
-									_react2.default.createElement(
-										"label",
-										{ "for": "userName" },
-										"用户名"
-									),
-									_react2.default.createElement("input", {
-										className: "form-control",
-										id: "userName",
-										placeholder: "用户名",
-										onChange: this.userNameOnChange,
-										value: this.state.userName
-									})
-								),
-								_react2.default.createElement(
-									"div",
-									{ className: "form-group" },
-									_react2.default.createElement(
-										"label",
-										{ "for": "password" },
-										"密码"
-									),
-									_react2.default.createElement("input", {
-										className: "form-control",
-										id: "password",
-										placeholder: "密码",
-										onChange: this.passwordOnChange,
-										value: this.state.password
-									})
-								),
-								_react2.default.createElement(
-									"button",
-									{
-										className: "btn btn-primary",
-										onClick: this.submit
-									},
-									"登录"
-								)
-							)
-						)
+						_react2.default.createElement("input", {
+							className: "form-control",
+							id: "password",
+							placeholder: "密码",
+							onChange: this.passwordOnChange,
+							value: this.state.password
+						})
+					),
+					_react2.default.createElement(
+						"button",
+						{
+							className: "btn btn-primary",
+							onClick: this.submit
+						},
+						"登录"
 					)
 				);
 			}
 		}]);
 
-		return LoginComponent;
+		return LoginForm;
 	}(_react2.default.Component);
 
-	exports.default = LoginComponent;
+	exports.default = LoginForm;
+
+/***/ },
+/* 235 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(160);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _NavHeader = __webpack_require__(170);
+
+	var _NavHeader2 = _interopRequireDefault(_NavHeader);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var App = function (_React$Component) {
+		_inherits(App, _React$Component);
+
+		function App() {
+			_classCallCheck(this, App);
+
+			return _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this));
+		}
+
+		_createClass(App, [{
+			key: "render",
+			value: function render() {
+				console.log(this.props);
+				return _react2.default.createElement(
+					"div",
+					{ className: "container" },
+					_react2.default.createElement(_NavHeader2.default, null),
+					this.props.children
+				);
+			}
+		}]);
+
+		return App;
+	}(_react2.default.Component);
+
+	exports.default = App;
 
 /***/ }
 /******/ ]);

@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var app = express();
 
 var REPORTS_FILE = path.join(__dirname, 'report.json');
+var USER_FILE = path.join(__dirname, 'user.json');
 
 app.set('port', (process.env.PORT || 3000));
 
@@ -18,6 +19,35 @@ app.use(function(req, res, next) {
    res.setHeader('Cache-Control', 'no-cache');
    next();
 });
+
+app.get('/api/login', function(req, res) {
+   fs.readFile(USER_FILE, function(err, data){
+      if(err){
+         console.error(err);
+         process.exit(1);
+      }
+
+      var users = JSON.parse(data);
+      var userName = req.query.userName;
+      var password = req.query.password;
+
+      var targetUser = users.find(function(user, index){
+         if(user.userName === userName && user.password === password){
+            return true;
+         }else{
+            return false;
+         }
+      });
+
+      if(!!targetUser){
+         res.json(targetUser);
+      }else{
+         res.json({
+            "type": "error"
+         });
+      }
+   })
+})
 
 app.post('/api/submitReport', function(req, res) {
    fs.readFile(REPORTS_FILE, function(err, data) {

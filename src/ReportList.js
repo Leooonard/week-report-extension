@@ -67,8 +67,7 @@ export class ReportList extends React.Component {
 
 	render() {
 		return (
-			<div className = {"container"}>
-				<NavHeader/>
+			<div>
 				{
 					this.getReportList()
 				}
