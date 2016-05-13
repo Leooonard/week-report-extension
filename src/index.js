@@ -14,7 +14,7 @@ window.onload = function(){
 			<Route path = "/login" component = {LoginPage}/>
 			<Route path = "/app" component = {App}>
 				<Route path = "write" component = {WeekReport} />
-		   	<Route path = "read" component = {ReportList} />
+		   		<Route path = "read" component = {ReportList} />
 			</Route>
 		</Router>
 	), document.getElementById("root"))

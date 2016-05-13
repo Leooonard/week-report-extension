@@ -1,6 +1,6 @@
 import React from "react"
 import LoginForm from "./LoginForm.js"
-import {browserHistory} from "react-router"
+import {hashHistory} from "react-router"
 
 export default class LoginPage extends React.Component {
 	constructor() {
@@ -16,7 +16,7 @@ export default class LoginPage extends React.Component {
 			dataType: "json",
 		}).done(function(data){
 			window.currentUser = data;
-			browserHistory.push('/index.html#/write');
+			hashHistory.push('app/write');
 		}).fail(function(err){
 			console.log(err);
 		});

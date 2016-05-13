@@ -4,6 +4,17 @@ import {Link} from "react-router"
 export default class NavHeader extends React.Component {
 	constructor() {
 		super()
+
+		this.tabInfo = [
+			{
+				url: 'app/write',
+				pathname: 'write'
+			},
+			{
+				url: 'app/read',
+				pathname: 'read'
+			}
+		];
 	}
 
 	render() {
